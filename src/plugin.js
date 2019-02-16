@@ -129,7 +129,11 @@ class AutoDLLPlugin {
           );
 
       const doCompilation = (htmlPluginData, callback) => {
-        htmlPluginData.assets.js = [...getDllEntriesPaths('.js'), ...htmlPluginData.assets.js];
+        let _assetsList = [];
+        if (inject == true || inject == htmlPluginData.outputName) {
+          _assetsList = getDllEntriesPaths('.js');
+        }
+        htmlPluginData.assets.js = [..._assetsList, ...htmlPluginData.assets.js];
         htmlPluginData.assets.css = [...getDllEntriesPaths('.css'), ...htmlPluginData.assets.css];
 
         callback(null, htmlPluginData);
