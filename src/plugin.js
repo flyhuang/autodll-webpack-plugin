@@ -1,6 +1,7 @@
 import webpack, { DllReferencePlugin } from 'webpack';
 import flatMap from 'lodash/flatMap';
 import isEmpty from 'lodash/isEmpty';
+import isArray from 'lodash/isArray';
 import once from 'lodash/once';
 import { SyncHook } from 'tapable';
 import { RawSource } from 'webpack-sources';
@@ -130,7 +131,7 @@ class AutoDLLPlugin {
 
       const doCompilation = (htmlPluginData, callback) => {
         let _assetsList = [];
-        if (inject == true || inject == htmlPluginData.outputName) {
+        if (inject == true || inject == htmlPluginData.outputName || (isArray(inject) && inject.indexOf(htmlPluginData.outputName) > -1)) {
           _assetsList = getDllEntriesPaths('.js');
         }
         htmlPluginData.assets.js = [..._assetsList, ...htmlPluginData.assets.js];
